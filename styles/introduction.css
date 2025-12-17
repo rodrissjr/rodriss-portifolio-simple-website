@@ -179,7 +179,7 @@
 
 .magic-separator {
   height: 10px;
-  background: linear-gradient(to right, #c3700a, #ff6b35, #c3700a);
+  background: linear-gradient(90deg, transparent, #ff8c00, transparent);
   margin: 20px auto;
   max-width: 1200px;
   border-radius: 5px;
