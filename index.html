@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rodriss.com</title>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  </head>
+
+  <style>
+    :root {
+      --padding: 10px;
+      --color: #e34f26;
+    }
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: rgb(43, 38, 38);
+      font-family: Arial, Helvetica, sans-serif;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    .a-button0 {
+      animation: load 2s linear forwards;
+    }
+    @keyframes load {
+      0% {
+        transform: translateY(20px) scale(0.5);
+        opacity: 0.05;
+      }
+    }
+
+    .a-button {
+      padding: 40px 80px;
+      background: transparent;
+      border-radius: 40px;
+      border: 0px solid var(--color);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      overflow: hidden;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--color);
+      white-space: nowrap;
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.8);
+      transition: all 0.3s ease-in-out;
+    }
+    .a-button span {
+      position: absolute;
+      width: 0;
+      left: 0;
+      height: 100%;
+      border-radius: 40px;
+      z-index: -1;
+      background-color: rgb(118, 54, 6);
+      transition: width, 0.6s ease-in-out;
+    }
+    .a-button:hover span {
+      width: 100%;
+    }
+    .a-button:hover {
+      color: rgb(167, 136, 97);
+      border: 2px solid gray;
+      box-shadow: 10px 10px 20px rgba(88, 68, 68, 0.8);
+    }
+    .a-button:active {
+      transform: scale(8);
+    }
+
+    footer {
+      bottom: 0;
+      left: 0;
+      right: 0;
+      position: fixed;
+      background-color: #884f05;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .copy-right {
+      margin-top: 10px;
+      border-top: 1px solid rgb(41, 32, 32);
+      padding: 2px;
+    }
+    .welcome-statement {
+      color: rgb(206, 183, 155);
+      font-size: 2.5rem;
+      margin-top: 10px;
+      line-height: 80px;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: trans 2s ease-in-out forwards;
+      white-space: nowrap;
+    }
+    @keyframes trans {
+      0% {
+        transform: translateX(100%) rotateY(70deg);
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateX(0) rotateY(0);
+        opacity: 1;
+      }
+    }
+    .welcome-statement {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: trans 2s ease-in-out forwards;
+      white-space: nowrap;
+    }
+    .welcome-statement h1 {
+      color: rgb(206, 183, 155);
+      font-size: 4rem;
+      margin-top: 10px;
+      line-height: 80px;
+      font-weight: 700;
+      overflow: hidden;
+      border-right: 3px solid #e34f26;
+      white-space: nowrap;
+      animation: typing 3s steps(30, end), blink-caret 0.75s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    .welcome-statement h1 sup {
+      font-size: 12px;
+      margin-left: 5px;
+      border: 1px solid rgb(207, 105, 105);
+      padding: 2px 3px;
+      border-radius: 3px;
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
+      font-weight: 600;
+    }
+    .welcome-statement p {
+      color: rgb(206, 183, 155);
+      font-size: 1.5rem;
+      margin-top: 20px;
+      font-weight: 400;
+      animation: trans 2s ease-in-out 1s forwards;
+      opacity: 0;
+    }
+    @media (max-width: 663px) {
+      .welcome-statement {
+        font-size: 1.7rem;
+        line-height: 50px;
+      }
+      .welcome-statement h1 {
+        font-size: 2.5rem;
+        line-height: 50px;
+      }
+    }
+    .icons {
+      border-bottom: 5px solid #884f05;
+      padding: 15px;
+      display: flex;
+      gap: 9px;
+      position: relative;
+      animation: display 2s ease-in-out forwards;
+    }
+    @keyframes display {
+      0% {
+        opacity: 0;
+        transform: scale(0);
+      }
+    }
+
+    .icons a img {
+      width: 40px;
+      border-radius: 20px;
+      transition: all 0.3s ease-in-out;
+    }
+    /*
+    .icons a:nth-child(1) {
+      animation: move1 1s ease-in-out forwards;
+    }
+    @keyframes move1 {
+      0% {
+        transform: translateX(-40px);
+      }
+      100% {
+      }
+    }
+    .icons a:nth-child(2) {
+      animation: move 1s ease-in-out forwards;
+    }
+    @keyframes move {
+      0% {
+        transform: translateY(40px);
+      }
+      100% {
+      }
+    }
+    .icons a:nth-child(3) {
+      animation: move3 1s ease-in-out forwards;
+    }
+    @keyframes move3 {
+      0% {
+        transform: translateX(40px);
+      }
+      100% {
+      }
+    } */ /* just trying animation on each icon */
+    .icons a img:hover {
+      background: rgb(182, 105, 12);
+      cursor: pointer;
+      transform: scale(1.1) translateY(5px);
+    }
+    .icons::before {
+      content: "";
+      background-color: rgb(58, 48, 148);
+      inset: 0;
+      border-radius: 20px;
+      position: absolute;
+      z-index: -80;
+      opacity: 0.08;
+    }
+    .home {
+      display: flex;
+      margin: 8% auto;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 25px;
+      border-radius: 30px;
+      padding: 50px;
+      /* box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3); */
+      background: transparent;
+      width: 100%;
+      max-width: 1100px;
+    }
+    @media (max-width: 663px) {
+      .home {
+        margin: 20% auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .welcome-statement {
+        font-size: 2rem;
+        line-height: 60px;
+      }
+      .welcome-statement h1 {
+        font-size: 3rem;
+        line-height: 60px;
+      }
+      .home {
+        padding: 30px;
+        margin: 15% auto;
+      }
+      .icons a img {
+        width: 35px;
+      }
+      .a-button {
+        padding: 30px 60px;
+        font-size: 1rem;
+      }
+      footer {
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .welcome-statement {
+        font-size: 1.5rem;
+        line-height: 40px;
+      }
+      .welcome-statement h1 {
+        font-size: 2rem;
+        line-height: 40px;
+      }
+      .home {
+        padding: 20px;
+        margin: 25% auto;
+        gap: 15px;
+      }
+      .icons {
+        padding: 10px;
+        gap: 5px;
+      }
+      .icons a img {
+        width: 30px;
+      }
+      .a-button {
+        padding: 20px 40px;
+        font-size: 0.9rem;
+      }
+      footer {
+        padding: 10px;
+      }
+      .background1 {
+        font-size: 0.9rem;
+      }
+      .copy-right {
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Additional animations */
+    body {
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    footer {
+      animation: slideUp 1.5s ease-in-out;
+    }
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .a-button:active {
+      transform: scale(0.95);
+    }
+
+    .icons a {
+      animation: bounceIn 1s ease-in-out forwards;
+      animation-delay: calc(var(--i) * 0.2s);
+    }
+    @keyframes bounceIn {
+      0% {
+        transform: scale(0.3);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      70% {
+        transform: scale(0.9);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+
+  <body>
+    <div id="particles-js"></div>
+    <!--lets seee-->
+    <div class="home">
+      <div class="icons">
+        <a href="https://www.facebook.com/selvester.rodriss.5" target="_blank" style="--i:0"> <img src="fb.png" alt="Facebook" /></a
+        ><a href="https://github.com/rodrissjr" target="_blank" style="--i:1"> <img src="ig.png" alt="GitHub" /> </a
+        ><a href="mailto:jamesrodriss43@gmail.com" target="_blank" style="--i:2"><img src="info.png" alt="Email" /></a>
+      </div>
+      <div class="welcome-statement">
+        <h1>Welcome to my<sup>TM</sup></h1>
+        <h1>portfolio website</h1>
+        <p>Web Developer & Designer</p>
+      </div>
+      <div class="a-button0">
+        <a href="portifolio.html"  class="a-button"
+          ><span></span>TAKE A TOUR</a
+        >
+      </div>
+    </div>
+
+    <footer>
+      <div class="background1">
+        Designed by James Rodriss
+      </div>
+      <div class="copy-right">&copy; James Rodriss. All rights reserved!</div>
+    </footer>
+    <script>
+      particlesJS("particles-js", {
+        "particles": {
+          "number": {
+            "value": 80,
+            "density": {
+              "enable": true,
+              "value_area": 800
+            }
+          },
+          "color": {
+            "value": "#ffffff"
+          },
+          "shape": {
+            "type": "circle",
+            "stroke": {
+              "width": 0,
+              "color": "#000000"
+            },
+            "polygon": {
+              "nb_sides": 5
+            }
+          },
+          "opacity": {
+            "value": 0.5,
+            "random": false,
+            "anim": {
+              "enable": false,
+              "speed": 1,
+              "opacity_min": 0.1,
+              "sync": false
+            }
+          },
+          "size": {
+            "value": 3,
+            "random": true,
+            "anim": {
+              "enable": false,
+              "speed": 40,
+              "size_min": 0.1,
+              "sync": false
+            }
+          },
+          "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#ffffff",
+            "opacity": 0.4,
+            "width": 1
+          },
+          "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+              "enable": false,
+              "rotateX": 600,
+              "rotateY": 1200
+            }
+          }
+        },
+        "interactivity": {
+          "detect_on": "canvas",
+          "events": {
+            "onhover": {
+              "enable": true,
+              "mode": "repulse"
+            },
+            "onclick": {
+              "enable": true,
+              "mode": "push"
+            },
+            "resize": true
+          },
+          "modes": {
+            "grab": {
+              "distance": 400,
+              "line_linked": {
+                "opacity": 1
+              }
+            },
+            "bubble": {
+              "distance": 400,
+              "size": 40,
+              "duration": 2,
+              "opacity": 8,
+              "speed": 3
+            },
+            "repulse": {
+              "distance": 200,
+              "duration": 0.4
+            },
+            "push": {
+              "particles_nb": 4
+            },
+            "remove": {
+              "particles_nb": 2
+            }
+          }
+        },
+        "retina_detect": true
+      });
+    </script>
+  </body>
+</html>
