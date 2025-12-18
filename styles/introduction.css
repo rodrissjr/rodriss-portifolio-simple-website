@@ -183,7 +183,7 @@
   margin: 20px auto;
   max-width: 1200px;
   border-radius: 5px;
-  animation: magic-glow 2s ease-in-out infinite alternate;
+  animation: magic-glow 10s ease-in-out infinite alternate;
   transform-origin: center;
 }
 
