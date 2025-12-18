@@ -191,11 +191,11 @@
   0% {
     box-shadow: 0 0 10px rgba(195, 112, 10, 0.5);
     transform: scale(1);
-    opacity: 0.8;
+    opacity: 0.44;
   }
   100% {
     box-shadow: 0 0 25px rgba(255, 107, 53, 1);
     transform: scale(1.1);
-    opacity: 1;
+    opacity: 2;
   }
 }
