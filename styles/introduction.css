@@ -1,6 +1,20 @@
+/* Global box-sizing for predictable sizing across browsers (you may already have this elsewhere;
+   keep it or remove if duplicated) */
+:root {
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Container */
 .introduction {
+  position: relative; /* needed for pseudo-element fallbacks and contained children */
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.08);
+  /* Fallback background for browsers without backdrop-filter (e.g. some Firefox versions) */
+  background-color: rgba(255, 255, 255, 0.08);
+  /* keep gradient/blur visual but still readable when backdrop-filter unsupported */
   max-width: 1200px;
   width: 100%;
   height: auto;
@@ -12,12 +26,29 @@
   justify-content: space-between;
   border-radius: 20px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  overflow: hidden; /* keep background rings and inner content clipped */
 }
+
+/* If backdrop-filter is not supported, provide a subtle translucent overlay to mimic the effect */
+.introduction::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  /* subtle blur fallback visually similar to backdrop-filter but applied to element itself */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Responsive */
 @media (max-width: 790px) {
   .introduction {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 9%;
+    gap: 3rem;
+    padding: 48px 16px;
   }
   .info1-intro h1 {
     font-size: 1.8rem;
@@ -26,35 +57,39 @@
     font-size: 0.65rem;
   }
 }
+
+/* Home image and animated rings */
 .home-image {
   margin: auto;
-  overflow: hidden;
+  overflow: visible; /* let ring pseudo-elements be positioned relative to box-image */
 }
 .home-image .box-image {
   width: 270px;
   height: 270px;
   border-radius: 50%;
   padding: 5px;
-  /*background: red; */
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
+/* Animated conic rings (vendor prefixed fallback for WebKit) */
 .home-image .box-image::before,
 .home-image .box-image::after {
   content: "";
   position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
   width: 500px;
   height: 500px;
-  background: conic-gradient(
-    transparent,
-    transparent,
-    transparent,
-    rgb(170, 81, 3)
-  );
-  transform: rotate(0deg);
+  border-radius: 50%;
+  background: conic-gradient(transparent, transparent, transparent, rgb(170, 81, 3));
+  background: -webkit-conic-gradient(transparent, transparent, transparent, rgb(170, 81, 3)); /* older Safari */
+  z-index: 0;
+  pointer-events: none;
   animation: rotate 10s linear infinite;
 }
 .home-image .box-image::after {
@@ -62,9 +97,11 @@
 }
 @keyframes rotate {
   100% {
-    transform: rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
+
+/* Image container and image */
 .img-info {
   width: 100%;
   height: 100%;
@@ -77,24 +114,53 @@
   z-index: 1;
 }
 .img-info img {
-  top: 0.05px;
+  top: 0;
+  left: 0;
   position: absolute;
   width: 100%;
+  height: 100%;
   object-fit: contain;
-  transition: all 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
   mix-blend-mode: lighten;
 }
 .img-info img:hover {
-  /* transform: scale(1.05);*/
+  transform: scale(1.03);
   cursor: pointer;
 }
+
+/* Buttons (combined shared rules) */
+.button1,
+.button2,
+.button {
+  background: #c3700a;
+  padding: 12px 27px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(190, 135, 7, 0.6);
+  color: white;
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-left: 15px;
+  border: 2px solid rgb(53, 53, 120);
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.12s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+.button1:hover,
+.button2:hover,
+.button:hover {
+  background: transparent;
+  box-shadow: 0 10px 20px rgba(190, 135, 7, 0.12);
+  transform: translateY(-2px);
+  cursor: pointer;
+}
+
+/* Info layout */
 .info1-buttons {
   margin-top: 1%;
 }
-
 .info1-intro {
-  margin-top: 0%;
-  margin-left: 0%;
+  margin-top: 0;
+  margin-left: 0;
   display: flex;
   flex-direction: column;
 }
@@ -107,76 +173,65 @@
   margin-left: 5%;
 }
 
+/* Heading stroke / typing effect */
+/* -webkit-text-stroke is supported in WebKit / Blink; provide a soft fallback using text-shadow for Firefox */
 .info1 .info1-intro h1 {
   color: #c3700a;
   display: inline-block;
   white-space: nowrap;
+  position: relative;
+  z-index: 2;
 }
 .info1 .info1-intro h1 span {
   position: relative;
   display: inline-block;
   color: transparent;
-  -webkit-text-stroke: 0.5px #c3700a;
+  -webkit-text-stroke: 0.5px #c3700a; /* Chrome, Safari */
+  /* Firefox fallback: emulate subtle stroke using multiple text-shadows (not exact but acceptable) */
+  text-shadow:
+    0.5px 0 #c3700a,
+    -0.5px 0 #c3700a,
+    0 0.5px #c3700a,
+    0 -0.5px #c3700a;
+  /* animate opacity/visibility rather than display (display isn't animatable) */
   animation: display-text 16s linear infinite;
-  animation-delay: calc(-4s * var(--i));
+  animation-delay: calc(-4s * var(--i, 1));
 }
+
+/* Replace display none animation with opacity/transform for cross-browser */
 @keyframes display-text {
-  25%,
-  100% {
-    display: none;
-  }
+  0%   { opacity: 1; transform: translateY(0); }
+  20%  { opacity: 1; transform: translateY(0); }
+  30%  { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 0; transform: translateY(-6px); visibility: hidden; }
 }
+
+/* Typing/underline cursor effect using pseudo-element */
 .info1 h1 span::before {
   content: attr(data-text);
-  width: 0;
   position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
   border-right: 2px solid #c3700a;
-  animation: fill-text 4s linear infinite;
+  color: #c3700a;
+  background: transparent;
+  /* steps() makes the "typing" more natural; adjust duration/steps as needed */
+  animation: fill-text 4s steps(40, end) infinite;
+  z-index: 3;
 }
+
+/* Animate the width for a typing effect; this is supported and reliable cross-browser */
 @keyframes fill-text {
-  10%,
-  100% {
-    width: 0;
-  }
-  70%,
-  90% {
-    width: 100%;
-  }
+  0%   { width: 0; opacity: 1; }
+  70%  { width: 100%; opacity: 1; }
+  90%  { width: 100%; opacity: 0.9; }
+  100% { width: 0; opacity: 0; }
 }
 
-.button1 {
-  background: #c3700a;
-  padding: 12px 27px;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(190, 135, 7, 0.6);
-  color: white;
-  font-weight: 600;
-  font-size: 1.05rem;
-  margin-left: 15px;
-  border: 2px solid rgb(53, 53, 120);
-  transition: all 0.3s ease-in-out;
-  text-decoration: none;
-}
-.button2 {
-  background: #c3700a;
-  padding: 12px 27px;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(190, 135, 7, 0.6);
-  color: white;
-  font-weight: 600;
-  font-size: 1.05rem;
-  margin-left: 15px;
-  border: 2px solid rgb(53, 53, 120);
-  transition: all 0.3s ease-in-out;
-  text-decoration: none;
-}
-.button1:hover,
-.button2:hover {
-  background: none;
-  box-shadow: 0 10px 20px rgba(190, 135, 7, 0.1);
-  cursor: pointer;
-}
-
+/* Gradient separator with corrected opacity and valid values */
 .magic-separator {
   height: 10px;
   background: linear-gradient(90deg, transparent, #ff8c00, transparent);
@@ -187,15 +242,37 @@
   transform-origin: center;
 }
 
+/* Fix invalid opacity > 1 and adjust transform scales to valid ranges */
 @keyframes magic-glow {
   0% {
     box-shadow: 0 0 10px rgba(195, 112, 10, 0.5);
-    transform: scale(0.5);
+    transform: scale(0.98);
     opacity: 0.3;
   }
   100% {
     box-shadow: 0 0 25px rgba(255, 107, 53, 1);
-    transform: scale(0.8);
-    opacity: 1.5;
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Accessibility: honor reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .home-image .box-image::before,
+  .home-image .box-image::after,
+  .info1 h1 span::before,
+  .info1 .info1-intro h1 span,
+  .magic-separator {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+/* Small adjustments for better rendering on Firefox and other engines */
+@supports (-moz-appearance: none) {
+  /* Firefox-specific tweaks if necessary */
+  .img-info img {
+    image-rendering: auto;
   }
 }
